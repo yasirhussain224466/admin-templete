@@ -1,0 +1,123 @@
+/* eslint-disable react/jsx-curly-newline */
+import React from "react";
+import PropTypes from "prop-types";
+import { Formik } from "formik";
+
+import TextInput from "@/components/Input";
+import Switch from "@/components/Switch";
+import Dropdown from "@/components/Dropdown";
+
+import { optionState } from "./Constant";
+import * as S from "./styled";
+
+const Company = ({ formik, title }) => {
+  const { errors, setFieldValue, values } = formik || {};
+
+  const onChange = (checked) => {
+    setFieldValue("status", checked);
+  };
+
+  return (
+    <Formik>
+      <S.Company>
+        <div className="title">{title}</div>
+        <TextInput
+          error={errors.name?.value}
+          label="Company Name"
+          name="name"
+          onChange={(e) => {
+            setFieldValue("name", {
+              value: e.target.value,
+              old_value: e.target.value,
+            });
+          }}
+          style={{ borderRadius: "3px" }}
+          value={values.name?.value}
+        />
+        <TextInput
+          error={errors.address?.value}
+          label="Address 1"
+          name="address"
+          onChange={(e) => {
+            setFieldValue("address", {
+              value: e.target.value,
+              old_value: e.target.value,
+            });
+          }}
+          style={{ borderRadius: "3px" }}
+          value={values.address?.value}
+        />
+        <TextInput
+          label="Address 2"
+          name="secondary_address"
+          onChange={(e) => {
+            setFieldValue("secondary_address", {
+              value: e.target.value,
+              old_value: e.target.value,
+            });
+          }}
+          style={{ borderRadius: "3px" }}
+          value={values.secondary_address?.value}
+        />
+        <TextInput
+          error={errors.city?.value}
+          label="City"
+          name="city"
+          onChange={(e) =>
+            setFieldValue("city", {
+              value: e.target.value,
+              old_value: e.target.value,
+            })
+          }
+          style={{ borderRadius: "3px" }}
+          value={values.city?.value}
+        />
+        <div>
+          <div className="md-04">
+            <div className="nd-04">
+              <Dropdown
+                error={errors.state?.value}
+                handleDropDownChange={(e) =>
+                  setFieldValue("state", { value: e, old_value: e })
+                }
+                options={optionState}
+                placeholder="State"
+                state="State"
+                value={values?.state?.value}
+              />
+            </div>
+            <div className="paddingtop">
+              <TextInput
+                error={errors.zip?.value}
+                label="Zip"
+                name="zip"
+                onChange={(e) => {
+                  setFieldValue("zip", {
+                    value: e.target.value,
+                    old_value: e.target.value,
+                  });
+                }}
+                style={{ borderRadius: "3px" }}
+                value={values.zip?.value}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="pd-04">
+          <Switch onChange={onChange} />
+          <span style={{ marginLeft: "10px" }}>
+            {values.status ? "Enabled" : "Disabled"}
+          </span>
+        </div>
+      </S.Company>
+    </Formik>
+  );
+};
+
+export default Company;
+
+Company.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  formik: PropTypes.objectOf(PropTypes.any),
+  title: PropTypes.string,
+};
